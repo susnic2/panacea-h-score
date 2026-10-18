@@ -1,5 +1,5 @@
 # ==============================================================================
-# PAnACEA-H: regenerate the main-text figures (Figures 1-3).
+# PAnACEA-H: regenerate the main-text Figures 1-3 and Supplementary Figure 3.
 #
 # Run from the repository root:   source("regenerate_figures.R")
 # Output: ./figures/
@@ -7,13 +7,19 @@
 # Figure 1  Standardized mean differences (SMD, admitted vs discharged) for
 #           past medical history, chief complaint and home medications.
 #           NOTE: the SMD values below are transcribed from Supplementary
-#           Tables 1-3 of the manuscript; they are NOT recomputed from the raw
-#           data by this script.
+#           Tables 9-11 of the manuscript; they are NOT recomputed from the
+#           raw data by this script.
 # Figure 2  Top-15 predictors by mean information gain (XGBoost, 5-fold CV).
 #           Input: data_for_figures/supplementary_table4_feature_ranking.csv
 #           (identical to the output of panacea_h_reproducibility.R).
-# Figure 3  Calibration of the PAnACEA-H score (held-out test set and
-#           out-of-fold training predictions).
+# Figure 3  ROC curve of the PAnACEA-H score on the held-out test set.
+#           Input: reproducibility_output/table3_threshold_performance.csv
+#           (sensitivity and specificity at every integer score threshold,
+#           which are the exact vertices of the empirical ROC curve of an
+#           integer-valued score), and the DeLong AUC and 95% CI stored in
+#           reproducibility_output/panacea_h_results.RData.
+# Supp. Fig. 3  Calibration of the PAnACEA-H score (held-out test set and
+#           out-of-fold derivation partition).
 #           Input: data_for_figures/R2_calibration_*.csv, precomputed from the
 #           score's predicted probabilities. The code that generated these two
 #           files is not part of this release.
@@ -114,7 +120,36 @@ ggsave(file.path(OUT, "Figure_2_doublecolumn_180mm.jpeg"), p_fig2, dpi = 300,
 cat("Figure 2 saved (85 mm and 180 mm versions).\n")
 
 # ==============================================================================
-# FIGURE 3 - calibration plot
+# FIGURE 3 - ROC curve, held-out test set (85 mm single-column width)
+# ==============================================================================
+thr <- read.csv("reproducibility_output/table3_threshold_performance.csv")
+res <- new.env(); load("reproducibility_output/panacea_h_results.RData", envir = res)
+auc_ci <- as.numeric(res$ci_test)                    # DeLong: lower, AUC, upper
+
+roc_pts <- rbind(data.frame(fpr = 0, sens = 0),      # threshold above the maximum score
+                 data.frame(fpr = 1 - thr$Specificity, sens = thr$Sensitivity))
+roc_pts <- roc_pts[order(roc_pts$fpr, roc_pts$sens), ]
+op <- thr[thr$Threshold == 15, ]                     # Youden-optimal cutoff (score >= 15)
+
+p_fig3 <- ggplot(roc_pts, aes(fpr, sens)) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", colour = "grey50") +
+  geom_line(colour = "steelblue4", linewidth = 0.9) +
+  geom_point(data = data.frame(fpr = 1 - op$Specificity, sens = op$Sensitivity),
+             colour = "firebrick", size = 2) +
+  annotate("text", x = 1 - op$Specificity + 0.04, y = op$Sensitivity - 0.06,
+           label = "score >= 15", colour = "firebrick", size = 2.6, hjust = 0) +
+  annotate("text", x = 0.97, y = 0.08, hjust = 1, size = 2.8,
+           label = sprintf("AUC %.3f\n(95%% CI %.3f-%.3f)", auc_ci[2], auc_ci[1], auc_ci[3])) +
+  coord_equal(xlim = c(0, 1), ylim = c(0, 1)) +
+  labs(x = "1 - Specificity", y = "Sensitivity") +
+  theme_minimal(base_size = 8) + theme(panel.grid.minor = element_blank())
+
+ggsave(file.path(OUT, "Figure_3_ROC.jpeg"), p_fig3, dpi = 300, bg = "white",
+       width = mm_to_in(85), height = mm_to_in(85))
+cat("Figure 3 (ROC) saved.\n")
+
+# ==============================================================================
+# SUPPLEMENTARY FIGURE 3 - calibration plot
 # ==============================================================================
 cal_curve <- read.csv("data_for_figures/R2_calibration_curve_by_score.csv")
 cal_dec   <- read.csv("data_for_figures/R2_calibration_plot_data.csv")
@@ -144,8 +179,8 @@ p_fig3 <- ggplot() +
   theme_minimal(base_size = 10) +
   theme(plot.title = element_text(size = 11))
 
-ggsave(file.path(OUT, "Figure_3_calibration.jpeg"), p_fig3, dpi = 300,
+ggsave(file.path(OUT, "Supplementary_Figure_3_calibration.jpeg"), p_fig3, dpi = 300,
        bg = "white", width = mm_to_in(180), height = mm_to_in(100))
-cat("Figure 3 (calibration) saved.\n")
+cat("Supplementary Figure 3 (calibration) saved.\n")
 
 cat("\nAll figures written to:", normalizePath(OUT), "\n")

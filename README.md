@@ -12,7 +12,7 @@ Code accompanying:
 | Path | Purpose |
 |---|---|
 | `panacea_h_reproducibility.R` | Full pipeline: feature ranking, score derivation, 10-fold CV, held-out validation, bootstrap CIs, decision curve analysis |
-| `regenerate_figures.R` | Main-text Figures 1-3 (see "Scope" below) |
+| `regenerate_figures.R` | Main-text Figures 1-3 and Supplementary Figure 3 (see "Scope" below) |
 | `data_for_figures/` | Small precomputed inputs for the figure script |
 | `reproducibility_output/` | Reference output of a complete run of the pipeline (for comparison) |
 
@@ -20,16 +20,24 @@ Code accompanying:
 
 **Included**
 
-- Feature ranking by information gain (Figure 2; Supplementary Table 4)
+- Feature ranking by information gain (Figure 2; Supplementary Table 3)
 - Pooled 5-fold cross-validated performance of the XGBoost ranking model
-  (Supplementary Table 5)
+  (Supplementary Table 12)
 - Score item weights and cutoffs (Table 2)
 - Internal validation by 10-fold cross-validation on the training set
+  (Supplementary Table 15)
 - Held-out test-set validation: threshold-level performance (Table 3), the
-  ROC curve, and bootstrap confidence intervals (Supplementary Table 6,
-  Supplementary Figure 1)
-- Decision curve analysis (Supplementary Figure 2)
-- Figures 1-3 as they appear in the revised manuscript
+  ROC curve (Figure 3), and bootstrap confidence intervals (Supplementary
+  Table 16, Supplementary Figure 2)
+- Decision curve analysis of the score against Admit All / Admit None
+  (the pipeline's own version; Supplementary Figure 4 in the manuscript also
+  shows ESI alone)
+- Figures 1-3 and Supplementary Figure 3 (calibration) as they appear in the
+  revised manuscript
+
+The output files written by the pipeline keep the supplementary numbering of
+the original submission in their names (e.g. `supplementary_table4_...`); the
+numbers above are those of the revised manuscript.
 
 **Not included**
 
@@ -37,14 +45,15 @@ Code accompanying:
 - The additional analyses added during peer review (calibration computation,
   subgroup and site-level performance, optimism correction, selection
   stability, comparator models, and the remaining new supplementary tables).
-  Only the calibration data needed to draw Figure 3 are provided
+  Only the calibration data needed to draw Supplementary Figure 3 are provided
   (`data_for_figures/R2_calibration_*.csv`), as precomputed files; the code
   that generated them is not part of this release.
 - Figure 1 is drawn from standardized mean differences transcribed from
-  Supplementary Tables 1-3; they are not recomputed from the raw data.
+  Supplementary Tables 9-11; they are not recomputed from the raw data.
 
-Note that the pipeline's own ROC output (`figure3_roc_test_set.jpeg`) is
-the ROC curve; in the revised manuscript Figure 3 is the calibration plot.
+The ROC curve in main-text Figure 3 is drawn by `regenerate_figures.R` from the
+threshold table written by the pipeline (the pipeline's own `figure3_roc_test_set.jpeg`
+is an equivalent, unformatted version).
 
 ## Data
 
