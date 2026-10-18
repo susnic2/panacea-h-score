@@ -99,5 +99,6 @@ its original source (Hong et al., 2018).
 
 ## Citation
 
-See `CITATION.cff`. The archived release is available on Zenodo:
-DOI to be added upon release.
+See `CITATION.cff`. Version 1.0.0 is archived on Zenodo:
+[10.5281/zenodo.23450955](https://doi.org/10.5281/zenodo.23450955)
+(concept DOI covering all versions: [10.5281/zenodo.23450954](https://doi.org/10.5281/zenodo.23450954)).
