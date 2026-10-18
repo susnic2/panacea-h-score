@@ -129,15 +129,10 @@ auc_ci <- as.numeric(res$ci_test)                    # DeLong: lower, AUC, upper
 roc_pts <- rbind(data.frame(fpr = 0, sens = 0),      # threshold above the maximum score
                  data.frame(fpr = 1 - thr$Specificity, sens = thr$Sensitivity))
 roc_pts <- roc_pts[order(roc_pts$fpr, roc_pts$sens), ]
-op <- thr[thr$Threshold == 15, ]                     # Youden-optimal cutoff (score >= 15)
 
 p_fig3 <- ggplot(roc_pts, aes(fpr, sens)) +
   geom_abline(slope = 1, intercept = 0, linetype = "dashed", colour = "grey50") +
   geom_line(colour = "steelblue4", linewidth = 0.9) +
-  geom_point(data = data.frame(fpr = 1 - op$Specificity, sens = op$Sensitivity),
-             colour = "firebrick", size = 2) +
-  annotate("text", x = 1 - op$Specificity + 0.04, y = op$Sensitivity - 0.06,
-           label = "score >= 15", colour = "firebrick", size = 2.6, hjust = 0) +
   annotate("text", x = 0.97, y = 0.08, hjust = 1, size = 2.8,
            label = sprintf("AUC %.3f\n(95%% CI %.3f-%.3f)", auc_ci[2], auc_ci[1], auc_ci[3])) +
   coord_equal(xlim = c(0, 1), ylim = c(0, 1)) +
