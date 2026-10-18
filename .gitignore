@@ -1,0 +1,8 @@
+.DS_Store
+.Rhistory
+.RData
+.Rproj.user/
+figures/
+# The source dataset is not redistributed (see README)
+5v_cleandf.RData
+5v_cleandf.rdata

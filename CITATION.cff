@@ -1,0 +1,52 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the associated article."
+title: "PAnACEA-H: analysis code for the development and internal validation of a hospital-admission prediction score at Emergency Department triage"
+type: software
+license: MIT
+authors:
+  - family-names: Susca
+    given-names: Nicola
+  - family-names: Magistro
+    given-names: Arianna
+  - family-names: Pozzessere
+    given-names: Pietro
+  - family-names: Quaranta
+    given-names: Guido
+  - family-names: Prete
+    given-names: Marcella
+  - family-names: Leone
+    given-names: Patrizia
+  - family-names: Favoino
+    given-names: Elvira
+  - family-names: Osti
+    given-names: Nicola
+  - family-names: Maino
+    given-names: Alberto
+  - family-names: Racanelli
+    given-names: Vito
+preferred-citation:
+  type: article
+  title: "Development and internal validation of the PAnACEA-H score for predicting hospital admission at Emergency Department triage in adult patients presenting to United States hospitals: a machine learning analysis"
+  authors:
+    - family-names: Susca
+      given-names: Nicola
+    - family-names: Magistro
+      given-names: Arianna
+    - family-names: Pozzessere
+      given-names: Pietro
+    - family-names: Quaranta
+      given-names: Guido
+    - family-names: Prete
+      given-names: Marcella
+    - family-names: Leone
+      given-names: Patrizia
+    - family-names: Favoino
+      given-names: Elvira
+    - family-names: Osti
+      given-names: Nicola
+    - family-names: Maino
+      given-names: Alberto
+    - family-names: Racanelli
+      given-names: Vito
+  journal: "Frontiers in Public Health"
+  notes: "Under review at the time of code release; update with the final reference when available."

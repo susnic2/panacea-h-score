@@ -1,0 +1,207 @@
+
+Caricamento pacchetto: ‘dplyr’
+
+I seguenti oggetti sono mascherati da ‘package:stats’:
+
+    filter, lag
+
+I seguenti oggetti sono mascherati da ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Caricamento del pacchetto richiesto: ggplot2
+Caricamento del pacchetto richiesto: lattice
+Type 'citation("pROC")' for a citation.
+
+Caricamento pacchetto: ‘pROC’
+
+I seguenti oggetti sono mascherati da ‘package:stats’:
+
+    cov, smooth, var
+
+
+Caricamento pacchetto: ‘mice’
+
+Il seguente oggetto è mascherato da ‘package:stats’:
+
+    filter
+
+I seguenti oggetti sono mascherati da ‘package:base’:
+
+    cbind, rbind
+
+=== 1. LOADING AND ASSEMBLING THE DATASET ===
+Assembled dataset: 560486 visits x 547 variables
+Admissions: 166638 (29.7%)
+
+=== 2. DERIVATION / VALIDATION SPLIT ===
+Derivation (training) set: 392341 visits (29.7% admitted)
+Validation (test) set:     168145 visits (29.7% admitted)
+
+=== 4. FEATURE RANKING (XGBoost, 5-fold CV) ===
+  Fold 1/5: AUC = 0.9114
+  Fold 2/5: AUC = 0.9151
+  Fold 3/5: AUC = 0.9142
+  Fold 4/5: AUC = 0.9155
+  Fold 5/5: AUC = 0.9150
+
+Pooled 5-fold cross-validated AUC: 0.9142 (SD 0.0017)
+Manuscript-reported value: 0.9142 (Results: "a robust pooled AUC of 91.4%")
+
+Top 15 variables by mean information gain (Figure 2 / Supplementary Table 4):
+# A tibble: 15 × 4
+   Feature                     Frequency Mean_Gain  SD_Gain
+   <chr>                           <int>     <dbl>    <dbl>
+ 1 esi                                 5   0.301   0.00173 
+ 2 meds_cardiovascular                 5   0.275   0.00632 
+ 3 meds_gastrointestinal               5   0.115   0.00463 
+ 4 age                                 5   0.0565  0.00330 
+ 5 meds_analgesics                     5   0.0368  0.00130 
+ 6 previousdispo                       5   0.0322  0.00226 
+ 7 meds_vitamins                       5   0.0293  0.00208 
+ 8 meds_psychotherapeuticdrugs         5   0.0254  0.00143 
+ 9 cc_alcoholintoxication              5   0.0181  0.000486
+10 arrivalmode                         5   0.0152  0.000163
+11 triage_vital_hr                     5   0.0122  0.000327
+12 meds_antiasthmatics                 5   0.0108  0.000764
+13 n_admissions                        5   0.00853 0.000743
+14 meds_antiarthritics                 5   0.00644 0.000424
+15 meds_diuretics                      5   0.00552 0.000387
+
+--- 4b. Diagnostic: max_depth grid search (not used for the published model) ---
+ max_depth    cv_auc
+         2 0.9090231
+         3 0.9142316
+         4 0.9170130
+         5 0.9189706
+         6 0.9202721
+         8 0.9222398
+Grid maximum: max_depth = 8 (CV AUC 0.9222). Published model uses max_depth = 3.
+
+
+=== 5. SCORE DERIVATION ===
+Selected predictors (clinical relevance and cross-system reproducibility,
+ applied to the top-15 ranking above): esi, age, meds_cardiovascular, meds_analgesics, meds_psychotherapeuticdrugs, n_admissions, triage_vital_hr 
+
+Running multiple imputation (mice, m = 5, maxit = 10, pmm)...
+
+Cutoffs (Youden's index, training set): n_admissions > 0.50, triage_vital_hr > 98.83
+
+Derived weights (Table 2):
+                        esi                         age 
+                          3                           1 
+        meds_cardiovascular             meds_analgesics 
+                          5                           5 
+meds_psychotherapeuticdrugs                n_admissions 
+                          4                           2 
+            triage_vital_hr 
+                          2 
+Apparent (training) AUC at these weights: 0.8809
+Manuscript-published weights: ESI 3, age 1/decade, cardiovascular 5, analgesics 5, psychiatric 4, prior admissions 2, heart rate 2
+Maximum attainable score: 39 points
+
+
+=== 6. INTERNAL VALIDATION (10-fold CV, weights and cutoffs held fixed) ===
+  Fold 1/10 done.
+  Fold 2/10 done.
+  Fold 3/10 done.
+  Fold 4/10 done.
+  Fold 5/10 done.
+  Fold 6/10 done.
+  Fold 7/10 done.
+  Fold 8/10 done.
+  Fold 9/10 done.
+  Fold 10/10 done.
+
+10-fold CV performance (mean +/- SD):
+   AUC_mean      AUC_sd Accuracy_mean Accuracy_sd Sensitivity_mean
+1 0.8804093 0.001630119     0.8077973 0.001731487        0.7479062
+  Sensitivity_sd Specificity_mean Specificity_sd  PPV_mean      PPV_sd
+1    0.004048981        0.8331375    0.001423467 0.6547468 0.002502874
+   NPV_mean      NPV_sd
+1 0.8865078 0.001666967
+Manuscript-reported: AUC 88.1% (95% CI 88.0-88.2%), accuracy 80.8%, sensitivity 74.7%, specificity 83.4%, PPV 65.6%, NPV 88.6%
+
+
+=== 7. HELD-OUT TEST SET VALIDATION ===
+
+Test-set AUC: 0.8797 (95% CI 0.8779-0.8814)
+At the best cutoff (score >= 14): accuracy 0.8071, sensitivity 0.7494, specificity 0.8314, PPV 0.6529, NPV 0.8869
+Manuscript-reported: AUC 88.0% (95% CI 87.8-88.1%)
+
+Table 3 (threshold-level performance, held-out test set):
+   Threshold Sensitivity Specificity   PPV   NPV Accuracy
+1          1     1.00000     0.00000 0.297   NaN    0.297
+2          2     1.00000     0.00267 0.298 1.000    0.299
+3          3     0.99998     0.02046 0.302 1.000    0.312
+4          4     0.99994     0.03220 0.304 0.999    0.320
+5          5     0.99970     0.05152 0.308 0.998    0.333
+6          6     0.99872     0.12623 0.326 0.996    0.386
+7          7     0.99750     0.18125 0.340 0.994    0.424
+8          8     0.99436     0.24440 0.358 0.990    0.467
+9          9     0.98046     0.35516 0.391 0.977    0.541
+10        10     0.96569     0.43990 0.422 0.968    0.596
+11        11     0.93823     0.52811 0.457 0.953    0.650
+12        12     0.90044     0.61795 0.499 0.936    0.702
+13        13     0.86007     0.69322 0.543 0.921    0.743
+14        14     0.80713     0.76833 0.596 0.904    0.780
+15        15     0.74943     0.83144 0.653 0.887    0.807
+16        16     0.68722     0.88000 0.708 0.869    0.823
+17        17     0.61767     0.92239 0.771 0.851    0.832
+18        18     0.55488     0.95031 0.825 0.835    0.833
+19        19     0.49639     0.96631 0.862 0.819    0.827
+20        20     0.44166     0.97697 0.890 0.805    0.818
+21        21     0.39219     0.98373 0.911 0.793    0.808
+22        22     0.34716     0.98731 0.920 0.781    0.797
+23        23     0.29981     0.99094 0.933 0.770    0.785
+24        24     0.25669     0.99315 0.941 0.759    0.774
+25        25     0.21588     0.99482 0.946 0.750    0.763
+26        26     0.17637     0.99621 0.952 0.741    0.752
+27        27     0.14223     0.99721 0.956 0.733    0.743
+28        28     0.10990     0.99815 0.962 0.726    0.734
+29        29     0.08233     0.99882 0.967 0.720    0.726
+30        30     0.06013     0.99931 0.974 0.715    0.720
+31        31     0.04127     0.99964 0.980 0.711    0.715
+32        32     0.02578     0.99980 0.982 0.708    0.710
+33        33     0.01492     0.99990 0.984 0.706    0.707
+34        34     0.00664     0.99997 0.991 0.704    0.705
+35        35     0.00156     1.00000 1.000 0.703    0.703
+36        36     0.00056     1.00000 1.000 0.703    0.703
+37        37     0.00020     1.00000 1.000 0.703    0.703
+38        39     0.00002     1.00000 1.000 0.703    0.703
+
+Risk bands: Low 0-14 | Intermediate 15-20 | High >= 21
+Manuscript-published bands: Low 0-14 | Intermediate 15-20 | High >= 21
+
+
+=== 8. BOOTSTRAP VALIDATION (1000 replicates) ===
+Bootstrap 95% CIs (Supplementary Table 6):
+      Metric Estimate CI_low CI_high
+         AUC   0.8797 0.8781  0.8816
+    Accuracy   0.8071 0.8054  0.8092
+ Sensitivity   0.7494 0.7459  0.7534
+ Specificity   0.8314 0.8295  0.8337
+         PPV   0.6529 0.6496  0.6569
+         NPV   0.8869 0.8850  0.8888
+
+
+=== 9. DECISION CURVE ANALYSIS ===
+Assuming '1' is [Event] and '0' is [non-Event]
+
+
+========== SUMMARY ==========
+Dataset: 560486 visits (392341 derivation, 168145 validation)
+XGBoost ranking model, pooled 5-fold CV AUC: 0.9142
+Score weights:
+                        esi                         age 
+                          3                           1 
+        meds_cardiovascular             meds_analgesics 
+                          5                           5 
+meds_psychotherapeuticdrugs                n_admissions 
+                          4                           2 
+            triage_vital_hr 
+                          2 
+Score, 10-fold CV AUC: 0.8804
+Score, held-out test AUC: 0.8797 (95% CI 0.8779-0.8814)
+
+All output files written to ./reproducibility_output/
