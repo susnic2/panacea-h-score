@@ -110,6 +110,9 @@ its original source (Hong et al., 2018).
 
 ## Citation
 
-See `CITATION.cff`. Version 1.1.0 adds `revision_analyses/` and corrects the deciles in `data_for_figures/`; version 1.0.0 is archived on Zenodo:
-[10.5281/zenodo.23450955](https://doi.org/10.5281/zenodo.23450955)
-(concept DOI covering all versions: [10.5281/zenodo.23450954](https://doi.org/10.5281/zenodo.23450954)).
+See `CITATION.cff`. Archived on Zenodo:
+
+- version 1.1.0 (adds `revision_analyses/` and corrects the deciles in `data_for_figures/`):
+  [10.5281/zenodo.23495767](https://doi.org/10.5281/zenodo.23495767)
+- version 1.0.0: [10.5281/zenodo.23450955](https://doi.org/10.5281/zenodo.23450955)
+- concept DOI covering all versions: [10.5281/zenodo.23450954](https://doi.org/10.5281/zenodo.23450954)
