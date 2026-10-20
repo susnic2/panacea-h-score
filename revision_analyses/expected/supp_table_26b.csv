@@ -1,0 +1,3 @@
+Score variant,AUC (test),Difference vs full score,DeLong p
+"PAnACEA-H, 7 items (with the three medication items)",0.8797,-,reference
+"Triage-only, 4 items (ESI, age, prior-year admissions, heart rate; no medication items)",0.8339,-0.0458,<0.001

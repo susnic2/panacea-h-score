@@ -1,0 +1,14 @@
+Item varied,Setting,AUC (train),AUC (test),Difference in test AUC vs published,% of training set above cutoff,Re-optimised weight
+Age encoding,Decade bands (published),,0.8797,reference,,
+Age encoding,"Single cutoff (Youden-optimal, training set)",,0.8714,-0.00825,,
+Heart-rate cutoff,84 bpm,0.8773,0.8764,-0.0033,34.9%,-
+Heart-rate cutoff,87 bpm,0.8782,0.8772,-0.0025,29.9%,-
+Heart-rate cutoff,90 bpm,0.8791,0.8782,-0.0015,24.5%,1
+Heart-rate cutoff,94 bpm,0.8798,0.8792,-0.0005,19.4%,-
+Heart-rate cutoff,95 bpm,0.8800,0.8794,-0.0003,18.2%,1
+Heart-rate cutoff,98 bpm,0.8804,0.8797,0.0000,14.5%,-
+Heart-rate cutoff,98.83 bpm (published),0.8804,0.8797,reference,14.5%,2
+Heart-rate cutoff,100 bpm,0.8807,0.8798,+0.0001,12.1%,2
+Heart-rate cutoff,103 bpm,0.8808,0.8800,+0.0003,9.7%,-
+Heart-rate cutoff,105 bpm,0.8807,0.8801,+0.0004,8.2%,2
+Heart-rate cutoff,110 bpm,0.8805,0.8799,+0.0002,5.2%,3

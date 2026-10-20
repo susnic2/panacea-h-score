@@ -1,0 +1,3 @@
+"Encoding","Age_cutoff","Test_AUC","Difference"
+"Decade bands (published)",NA,0.879669295074735,0
+"Single Youden-optimal cutoff",52.5,0.871419384561449,-0.00824991051328616

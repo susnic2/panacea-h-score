@@ -6,3 +6,5 @@ figures/
 # The source dataset is not redistributed (see README)
 5v_cleandf.RData
 5v_cleandf.rdata
+# Intermediate objects of revision_analyses (rebuilt by the scripts)
+revision_analyses/cache/

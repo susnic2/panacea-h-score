@@ -1,0 +1,4 @@
+"Variant","AUC_test","DeLong_p_vs_published_score"
+"Published score (7 items)",0.879669295074735,NA
+"Published score plus gastrointestinal medications (8 items)",0.884644397306409,4.90395309528136e-113
+"Published score with disposition of the previous visit in place of prior-year admissions (7 items)",0.881461512827713,2.14426592168124e-23

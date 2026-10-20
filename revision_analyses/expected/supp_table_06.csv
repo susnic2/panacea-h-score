@@ -1,0 +1,6 @@
+Analysis,AUC,Slope,Intercept,Brier,OE
+Apparent,0.880842,1.000000,0.000000,0.119483,1.000000
+Optimism (full pipeline),-0.000025,0.000357,0.000280,0.000007,0.000109
+Corrected (full pipeline),0.880867,0.999643,-0.000280,0.119477,0.999891
+Optimism (variables fixed),-0.000012,0.000571,0.000157,-0.000010,0.000061
+Corrected (variables fixed),0.880853,0.999429,-0.000157,0.119494,0.999939

@@ -1,0 +1,7 @@
+Model,AUC,CI_low,CI_high,OE_ratio,Cal_intercept,Cal_slope,Brier,Brier_scaled
+Hong low-dimensional,0.9141,0.9127,0.9156,0.9981,-0.0056,0.9877,0.1016,0.5141
+"XGBoost (Methods model: full 545-variable pool, depth 3, eta 0.1)",0.9141,0.9127,0.9156,0.9969,-0.0081,1.1652,0.1027,0.5086
+PAnACEA-H score,0.8799,0.8782,0.8817,1.0168,0.0411,1.0020,0.1202,0.4250
+START (refitted here),0.8531,0.8512,0.8549,0.9966,-0.0072,1.0005,0.1393,0.3334
+START (published weights),0.7971,0.7951,0.7991,0.6136,-1.0948,1.0504,0.1935,0.0741
+ESI alone,0.7667,0.7647,0.7688,0.9989,-0.0020,0.9934,0.1663,0.2042

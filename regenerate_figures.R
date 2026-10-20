@@ -20,9 +20,10 @@
 #           reproducibility_output/panacea_h_results.RData.
 # Supp. Fig. 3  Calibration of the PAnACEA-H score (held-out test set and
 #           out-of-fold derivation partition).
-#           Input: data_for_figures/R2_calibration_*.csv, precomputed from the
-#           score's predicted probabilities. The code that generated these two
-#           files is not part of this release.
+#           Input: data_for_figures/R2_calibration_*.csv, copies of
+#           revision_analyses/output/supp_fig3_calibration_by_score.csv and
+#           supp_fig3_calibration_deciles.csv, which are written by
+#           revision_analyses/01_mapping_calibration_bands.R.
 # ==============================================================================
 
 library(dplyr)

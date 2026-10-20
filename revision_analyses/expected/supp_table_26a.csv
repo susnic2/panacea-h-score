@@ -1,0 +1,9 @@
+Medication class,Arm,N,% missing,% with at least one medication (non-missing)
+Cardiovascular,Admit,"116,647",0.0%,40.4%
+Cardiovascular,Discharge,"275,694",0.0%,4.0%
+Gastrointestinal,Admit,"116,647",0.0%,35.7%
+Gastrointestinal,Discharge,"275,694",0.0%,3.1%
+Analgesic,Admit,"116,647",0.0%,24.9%
+Analgesic,Discharge,"275,694",0.0%,2.3%
+Psychotherapeutic,Admit,"116,647",0.0%,28.0%
+Psychotherapeutic,Discharge,"275,694",0.0%,3.8%

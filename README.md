@@ -15,6 +15,7 @@ Code accompanying:
 | `regenerate_figures.R` | Main-text Figures 1-3 and Supplementary Figure 3 (see "Scope" below) |
 | `data_for_figures/` | Small precomputed inputs for the figure script |
 | `reproducibility_output/` | Reference output of a complete run of the pipeline (for comparison) |
+| `revision_analyses/` | Scripts for the comparator, calibration, subgroup, optimism and sensitivity analyses added during peer review, with a check against the Supplementary Tables (see its README) |
 
 ## Scope: what this repository does and does not contain
 
@@ -34,6 +35,12 @@ Code accompanying:
   shows ESI alone)
 - Figures 1-3 and Supplementary Figure 3 (calibration) as they appear in the
   revised manuscript
+- The analyses added during peer review (`revision_analyses/`): score-to-probability
+  mapping, calibration and risk bands (Supplementary Tables 17-18, Table 3), the
+  comparator models (Supplementary Tables 19-21), subgroup and site analyses
+  (Supplementary Tables 22-25), optimism correction and selection stability
+  (Supplementary Tables 6-7), and the sensitivity analyses (Supplementary Tables
+  1, 4, 5, 8, 13, 14, 26)
 
 The output files written by the pipeline keep the supplementary numbering of
 the original submission in their names (e.g. `supplementary_table4_...`); the
@@ -42,12 +49,6 @@ numbers above are those of the revised manuscript.
 **Not included**
 
 - Table 1 (descriptive baseline characteristics): purely descriptive.
-- The additional analyses added during peer review (calibration computation,
-  subgroup and site-level performance, optimism correction, selection
-  stability, comparator models, and the remaining new supplementary tables).
-  Only the calibration data needed to draw Supplementary Figure 3 are provided
-  (`data_for_figures/R2_calibration_*.csv`), as precomputed files; the code
-  that generated them is not part of this release.
 - Figure 1 is drawn from standardized mean differences transcribed from
   Supplementary Tables 9-11; they are not recomputed from the raw data.
 
@@ -96,7 +97,8 @@ The diagnostic grid search is in
 
 ## Software
 
-Developed and tested under R 4.2.3. Package versions are not pinned. The
+The main pipeline was developed under R 4.2.3; the scripts in `revision_analyses/` were run under R 4.6.1
+(package versions are listed in `revision_analyses/README.md`). Package versions are not pinned. The
 `mice` step uses random draws (predictive mean matching), so re-running may
 reproduce the reported figures to within a few hundredths of a percentage
 point rather than bit-for-bit, depending on package versions.

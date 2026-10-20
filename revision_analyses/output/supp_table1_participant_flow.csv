@@ -1,0 +1,10 @@
+"Step","N","Pct"
+"Visits in source dataset",560486,100
+"Excluded: disposition missing",0,0
+"Analysed cohort",560486,100
+"Derivation partition (70%)",392341,70
+"  of which admitted",116647,20.81
+"  of which discharged",275694,49.19
+"Validation partition (30%)",168145,30
+"  of which admitted",49991,8.92
+"  of which discharged",118154,21.08

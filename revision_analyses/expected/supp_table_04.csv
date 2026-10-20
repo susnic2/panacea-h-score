@@ -1,0 +1,4 @@
+Score variant,AUC (test),DeLong p versus published score
+Published score (7 items),0.8797,-
+Published score plus gastrointestinal medications (8 items),0.8846,4.904e-113
+Published score with disposition of the previous visit in place of prior-year admissions (7 items),0.8815,2.144e-23

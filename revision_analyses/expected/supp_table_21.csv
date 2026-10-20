@@ -1,0 +1,6 @@
+Comparator,AUC_score,AUC_comparator,Delta,Z,p,CI_low,CI_high
+Hong low-dimensional,0.8799,0.9141,-0.03416,-62.27,<0.001,-0.03519,-0.03314
+XGBoost (Methods model),0.8799,0.9141,-0.03417,-69.03,<0.001,-0.03511,-0.03318
+START (refitted here),0.8799,0.8531,0.02685,36.00,<0.001,0.02544,0.02831
+START (published weights),0.8799,0.7971,0.08281,94.59,<0.001,0.08111,0.08446
+ESI alone,0.8799,0.7667,0.11323,111.67,<0.001,0.11122,0.11525
