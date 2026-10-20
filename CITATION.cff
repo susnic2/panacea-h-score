@@ -2,6 +2,8 @@ cff-version: 1.2.0
 message: "If you use this code, please cite the associated article."
 title: "PAnACEA-H: analysis code for the development and internal validation of a hospital-admission prediction score at Emergency Department triage"
 type: software
+version: 1.1.0
+date-released: 2026-10-20
 license: MIT
 authors:
   - family-names: Susca
