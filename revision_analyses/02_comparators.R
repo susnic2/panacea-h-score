@@ -4,7 +4,7 @@
 # Reproduces (manuscript numbering):
 #   Supplementary Table 19  net benefit of the score and of each comparator
 #   Supplementary Table 20  AUC (95% CI) and calibration of every model
-#   Supplementary Table 21  formal comparisons against the score (DeLong; bootstrap of the difference)
+#   Supplementary Table 21  formal comparisons against the score (DeLong; bootstrap of the difference), including the raw START score
 #   START figures quoted in the text (AUC of the raw score, observed-to-expected ratio)
 #
 # Models, all evaluated once on the held-out partition:
@@ -178,23 +178,26 @@ cat(sprintf("Visits with every comparator computable: %d of %d (%.2f%%)\n", sum(
 stopifnot(sum(complete_idx) == 167366)
 y_c <- y_test[complete_idx]; models_c <- lapply(models, function(p) p[complete_idx])
 cat(sprintf("START, raw score: AUC %.4f on these visits (text: 0.836)\n", fast_auc(y_c, test_final$start_score[complete_idx])))
+# The raw START score (integer points, no probability mapping) is added to the discrimination and comparison tables only;
+# it has no predicted probabilities, so it has no calibration row.
+cmp_models <- c(models_c, list("START (raw score)" = test_final$start_score[complete_idx]))
 
-auc_tab <- bind_rows(lapply(names(models_c), function(nm) { r <- roc(y_c, models_c[[nm]], quiet = TRUE); ci <- ci.auc(r, method = "delong")
+auc_tab <- bind_rows(lapply(names(cmp_models), function(nm) { r <- roc(y_c, cmp_models[[nm]], quiet = TRUE); ci <- ci.auc(r, method = "delong")
   data.frame(Model = nm, N = length(y_c), AUC = as.numeric(auc(r)), CI_low = ci[1], CI_high = ci[3]) }))
 cal_tab <- bind_rows(lapply(names(models_c), function(nm) cbind(Model = nm, calibration_metrics(y_c, models_c[[nm]], "Held-out test, complete cases"))))
 write.csv(auc_tab, out("supp_table20_auc_all_models.csv"), row.names = FALSE); write.csv(cal_tab, out("supp_table20_calibration_all_models.csv"), row.names = FALSE)
 
 # formal comparisons against the score: DeLong, and a bootstrap of the AUC difference
-rocs <- lapply(models_c, function(p) roc(y_c, p, quiet = TRUE)); ref <- rocs[["PAnACEA-H score"]]
-comparators <- setdiff(names(models_c), "PAnACEA-H score")
+rocs <- lapply(cmp_models, function(p) roc(y_c, p, quiet = TRUE)); ref <- rocs[["PAnACEA-H score"]]
+comparators <- setdiff(names(cmp_models), "PAnACEA-H score")
 delong_tab <- bind_rows(lapply(comparators, function(nm) { tt <- roc.test(ref, rocs[[nm]], method = "delong")
   data.frame(Comparator = nm, AUC_score = as.numeric(auc(ref)), AUC_comparator = as.numeric(auc(rocs[[nm]])),
              Delta = as.numeric(auc(ref)) - as.numeric(auc(rocs[[nm]])), Z = unname(tt$statistic), p = tt$p.value) }))
 set.seed(20260813); n <- length(y_c)
 boot <- matrix(NA_real_, N_BOOT, length(comparators), dimnames = list(NULL, comparators))
 for (b in seq_len(N_BOOT)) {
-  i <- sample.int(n, n, replace = TRUE); a_ref <- fast_auc(y_c[i], models_c[["PAnACEA-H score"]][i])
-  for (nm in comparators) boot[b, nm] <- a_ref - fast_auc(y_c[i], models_c[[nm]][i])
+  i <- sample.int(n, n, replace = TRUE); a_ref <- fast_auc(y_c[i], cmp_models[["PAnACEA-H score"]][i])
+  for (nm in comparators) boot[b, nm] <- a_ref - fast_auc(y_c[i], cmp_models[[nm]][i])
 }
 delong_tab$Boot_CI_low <- apply(boot, 2, quantile, 0.025)[delong_tab$Comparator]; delong_tab$Boot_CI_high <- apply(boot, 2, quantile, 0.975)[delong_tab$Comparator]
 write.csv(delong_tab, out("supp_table21_formal_comparisons.csv"), row.names = FALSE)

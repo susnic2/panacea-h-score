@@ -87,6 +87,7 @@ c20 <- c20[grepl("complete", c20$Partition), ]
 key20 <- function(lab) { lab <- sub(" \\(Methods model.*$", " (Methods model)", lab); lab }
 v20 <- do.call(rbind, lapply(key20(e20$Model), function(m) {
   a <- a20[a20$Model == m, ]; cc <- c20[c20$Model == m, ]
+  if (nrow(cc) == 0) cc <- data.frame(OE_ratio = NA, Cal_intercept = NA, Cal_slope = NA, Brier = NA, Brier_scaled = NA)   # raw START score: no probabilities, no calibration
   data.frame(Model = m, AUC = a$AUC, CI_low = a$CI_low, CI_high = a$CI_high, OE_ratio = cc$OE_ratio, Cal_intercept = cc$Cal_intercept,
              Cal_slope = cc$Cal_slope, Brier = cc$Brier, Brier_scaled = cc$Brier_scaled) }))
 v20$Model <- e20$Model
