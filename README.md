@@ -112,6 +112,7 @@ its original source (Hong et al., 2018).
 
 See `CITATION.cff`. Archived on Zenodo:
 
+- version 1.1.1 (adds the raw START score to the comparator tables): [10.5281/zenodo.23647181](https://doi.org/10.5281/zenodo.23647181)
 - version 1.1.0 (adds `revision_analyses/` and corrects the deciles in `data_for_figures/`):
   [10.5281/zenodo.23495767](https://doi.org/10.5281/zenodo.23495767)
 - version 1.0.0: [10.5281/zenodo.23450955](https://doi.org/10.5281/zenodo.23450955)
